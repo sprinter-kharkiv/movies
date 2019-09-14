@@ -1,0 +1,107 @@
+@import "variables";
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-image: url(assets/img/bg.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.border-none {
+  border: none;
+}
+
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__item {
+    min-height: 100%;
+  }
+}
+
+textarea.form-control {
+  min-height: 6em;
+}
+
+.logo-img {
+  display: block;
+  width: 100%;
+  max-width: 180px;
+  margin: 2vw auto 0;
+}
+
+.custom-card {
+  cursor: pointer;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
+  transition: box-shadow .3s;
+
+  &__del {
+    position: relative;
+    left: 30px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(.5);
+    transition: all .2s;
+  }
+
+  &:hover {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.4);
+
+    .custom-card__del {
+      left: 0;
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+  }
+}
+
+.loading {
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.2em;
+    height: 1.2em;
+    margin-top: -.6em;
+    margin-left: -.6em;
+    animation: rotate-360 0.8s infinite linear;
+    border: 2px solid gray;
+    border-radius: 50%;
+    border-right-color: $accent_blue;
+    border-top-color: $accent_blue;
+    z-index: 2;
+  }
+
+  &:before {
+    content: '';
+    background-color: rgba(255, 255, 255, 0.4);
+    position: absolute;
+    left: -1px;
+    right: -1px;
+    top: -1px;
+    bottom: -1px;
+    z-index: 1;
+  }
+}
+
+@keyframes rotate-360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+input.ng-touched.ng-invalid {
+  border-color: red;
+}

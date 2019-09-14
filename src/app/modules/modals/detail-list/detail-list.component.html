@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-detail-title">Detail info</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <dl>
+    <dt>Title:</dt><dd>{{ movie.Title }}</dd>
+    <dt>Year:</dt><dd>{{ movie.Year }}</dd>
+    <dt>Runtime:</dt><dd>{{ movie.Runtime }}</dd>
+    <dt>Genre:</dt><dd>{{ movie.Genre }}</dd>
+    <dt>Director:</dt><dd>{{ movie.Director }}</dd>
+  </dl>
+</div>
+<div class="modal-footer">
+  <button type="button"
+          class="btn btn-primary"
+          (click)="activeModal.dismiss()">Close</button>
+</div>

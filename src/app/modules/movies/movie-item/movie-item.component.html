@@ -1,0 +1,15 @@
+<div class="flex-row__item card border-none custom-card">
+  <div class="card-header bg-primary text-white">
+    {{ movie.Title }}
+  </div>
+  <div class="card-body">
+    <h5 class="small"> {{ movie.Genre }}, {{ movie.Year }} year</h5>
+    <p class="card-text">{{ movie.Plot }}</p>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-sm btn-primary" (click)="onEditMovie($event, movie)">Edit</button>
+    <button type="button"
+            class="btn btn-sm btn-danger float-right custom-card__del"
+            (click)="onDeleteMovie($event, movie)">Delete</button>
+  </div>
+</div>
