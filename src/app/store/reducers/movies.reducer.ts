@@ -11,10 +11,7 @@ export const initialMoviesStateState: IMoviesState = {
   selected: null,
 };
 
-export const moviesReducer = (
-  state = initialMoviesStateState,
-  action: MoviesActions
-): IMoviesState => {
+export function moviesReducer(state = initialMoviesStateState, action: MoviesActions): IMoviesState {
   switch (action.type) {
     case MoviesActionType.ADD_MOVIE_SUCCESS: {
       return {
@@ -45,4 +42,4 @@ export const moviesReducer = (
     default:
       return state;
   }
-};
+}

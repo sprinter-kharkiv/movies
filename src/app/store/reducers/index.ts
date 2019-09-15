@@ -1,4 +1,4 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
+import { ActionReducerMap } from '@ngrx/store';
 
 import { IMoviesState, initialMoviesStateState, moviesReducer } from '@store/reducers/movies.reducer';
 
@@ -17,6 +17,3 @@ export function fetInitialState(): AppState {
 export const appReducers: ActionReducerMap<AppState, any> = {
   movies: moviesReducer
 };
-// export const getMovies = (state: IMoviesState) => {
-//   return state.movies;
-// };

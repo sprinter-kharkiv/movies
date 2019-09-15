@@ -52,12 +52,12 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.movies$ = this.storeMovies.pipe(select(selectMoviesList));
   }
 
-  private showDetail(movie: IMovie): void {
+  public showDetail(movie: IMovie): void {
     const modalRef = this.modalService.open(DetailListComponent);
     modalRef.componentInstance.movie = movie;
   }
 
-  private createUpdateMovie(movie?: IMovie): void {
+  public createUpdateMovie(movie?: IMovie): void {
     const options = {
       keyboard: false,
       backdrop: false
@@ -66,7 +66,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.movie = movie || null;
   }
 
-  private deleteMovie(movie: IMovie): void {
+  public deleteMovie(movie: IMovie): void {
     const modalRef = this.modalService.open(ConfirmationComponent);
     modalRef.componentInstance.movie = movie;
 

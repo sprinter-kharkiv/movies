@@ -13,7 +13,7 @@ export class ConfirmationComponent {
 
   constructor(public activeModal: NgbActiveModal) { }
 
-  private confirm(): void {
+  public confirm(): void {
     this.result.emit('CONFIRM');
     this.activeModal.close();
   }

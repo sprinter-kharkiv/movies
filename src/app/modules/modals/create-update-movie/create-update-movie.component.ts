@@ -101,7 +101,7 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
     return 'tt' + Math.random().toString(36).substr(2, 9);
   }
 
-  private saveData(): void | boolean {
+  public saveData(): void | boolean {
 
     if (this.formMovie.invalid) {
       return false;
