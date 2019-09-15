@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { IMovie } from '@store/models/muvie.model';
-import { GrabMovie } from '@store/actions/movies.actions';
+import { DeleteMovie, GrabMovie } from '@store/actions/movies.actions';
 import { selectMoviesList } from '@store/selectors/movies.selectors';
 import { AppState } from '@store/reducers';
 import { DetailListComponent } from '@app/modules/modals/detail-list/detail-list.component';
@@ -34,6 +34,16 @@ export class MoviesComponent implements OnInit, OnDestroy {
   ];
   private readonly onDestroy = new Subject<void>();
 
+  ngOnInit() {
+    this.grabMuvies(this.validIMDb);
+    this.getAllMovies();
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.complete();
+  }
+
   private grabMuvies(arr: string[]): void {
     arr.forEach((mId: string) => this.storeMovies.dispatch(new GrabMovie(mId)));
   }
@@ -42,24 +52,17 @@ export class MoviesComponent implements OnInit, OnDestroy {
     this.movies$ = this.storeMovies.pipe(select(selectMoviesList));
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
   private showDetail(movie: IMovie): void {
     const modalRef = this.modalService.open(DetailListComponent);
     modalRef.componentInstance.movie = movie;
   }
 
-
   private createUpdateMovie(movie?: IMovie): void {
-    const modalRef = this.modalService.open(CreateUpdateMovieComponent);
+    const options = {
+      keyboard: false,
+      backdrop: false
+    };
+    const modalRef = this.modalService.open(CreateUpdateMovieComponent, options);
     modalRef.componentInstance.movie = movie || null;
   }
 
@@ -76,13 +79,4 @@ export class MoviesComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {
-    this.grabMuvies(this.validIMDb);
-    this.getAllMovies();
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.complete();
-  }
 }
