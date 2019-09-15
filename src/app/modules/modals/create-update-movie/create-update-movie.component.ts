@@ -1,13 +1,26 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IMovie } from '@store/models/muvie.model';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AddMovie, MoviesActionType, UpdateMovie } from '@store/actions/movies.actions';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AddMovie, UpdateMovie } from '@store/actions/movies.actions';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { AppState } from '@store/reducers';
 import { Subject } from 'rxjs';
-import { Actions, ofType } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import { takeUntil } from 'rxjs/operators';
+
+export function ValidateYear(control: FormControl) {
+  const maxVal = new Date().getFullYear() + 1;
+  const minVal = 1870;
+  if (control.value && (maxVal < control.value || minVal > control.value)) {
+    return {
+      range: {
+        msg: 'Wrong year value!'
+      }
+    };
+  }
+  return null;
+}
 
 @Component({
   selector: 'app-create-update-movie',
@@ -24,7 +37,8 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
     private storeMovies: Store<AppState>,
     private updates$: Actions,
     private actionsSubj: ActionsSubject,
-  ) { }
+  ) {
+  }
 
   formMovie: FormGroup;
   editMode = false;
@@ -50,14 +64,37 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
+    const asyncTitleValidator = this.validateTitleNotTaken.bind(this, [this.movie ? this.movie.id : '' ]);
+
     this.formMovie = this.fb.group({
-      Title: [this.movie ? this.movie.Title : null, Validators.required],
-      Year: [this.movie ? this.movie.Year : null, Validators.required],
+      Title: [this.movie ? this.movie.Title : null, Validators.required, asyncTitleValidator],
+      Year: [this.movie ? this.movie.Year : null, [Validators.required, ValidateYear]],
       Runtime: [this.movie ? this.movie.Runtime : null, Validators.required],
       Genre: [this.movie ? this.movie.Genre : null, Validators.required],
       Director: [this.movie ? this.movie.Director : null, Validators.required],
       Plot: [this.movie ? this.movie.Plot : null, Validators.required],
     });
+  }
+
+  private validateTitleNotTaken(control: AbstractControl) {
+    const args = Array.prototype.slice.call(arguments);
+    const [currentId] = args[0];
+    const titleForCheck = args[1].value.toLowerCase();
+
+    return new Promise(
+      ( resolve ) => {
+        this.storeMovies.select(state => state.movies).pipe(takeUntil(this.onDestroy))
+          .subscribe(res => {
+            res.movies.filter(movie => {
+              if ( titleForCheck === movie.Title.toLowerCase() && currentId !== movie.id) {
+                resolve({ titleInUse: true });
+              } else {
+                resolve( null );
+              }
+            });
+          });
+      });
+
   }
 
   private getUniqueId(): string {
@@ -72,7 +109,7 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
     const newMovie = this.formMovie.value;
-    newMovie.imdbID = this.editMode ? this.movie.imdbID : this.getUniqueId();
+    newMovie.id = this.editMode ? this.movie.id : this.getUniqueId();
 
     if (this.editMode) {
       this.updateHandler(newMovie);

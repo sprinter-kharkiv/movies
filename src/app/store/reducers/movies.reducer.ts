@@ -31,11 +31,11 @@ export const moviesReducer = (
     case MoviesActionType.DELETE_MOVIE_SUCCESS: {
       return {
         ...state,
-        movies: [...state.movies.filter(m => m.imdbID !== action.payload.imdbID)],
+        movies: [...state.movies.filter(m => m.id !== action.payload.id)],
       };
     }
     case MoviesActionType.UPDATE_MOVIE_SUCCESS: {
-      const targetIndex = state.movies.findIndex(m => m.imdbID === action.payload.imdbID);
+      const targetIndex = state.movies.findIndex(m => m.id === action.payload.id);
       state.movies[targetIndex] = {...action.payload};
       return {
         ...state,

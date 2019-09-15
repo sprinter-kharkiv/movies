@@ -31,7 +31,18 @@ export class MoviesEffects {
       return this.moviesService
         .grabMovie(action.payload)
         .pipe(
-          map((movie: IMovie) => new GrabMovieSuccess(movie)),
+          map((movie: {[key: string]: any}) => {
+            const clearedMovie = {
+              id: movie.imdbID,
+              Title: movie.Title,
+              Year: movie.Year,
+              Runtime: movie.Runtime,
+              Genre: movie.Genre,
+              Director: movie.Director,
+              Plot: movie.Plot,
+            };
+            return new GrabMovieSuccess(clearedMovie);
+          }),
           catchError(error => of(new GrabMovieFailed(error)))
         );
     })

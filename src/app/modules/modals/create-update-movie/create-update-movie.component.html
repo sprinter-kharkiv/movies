@@ -10,6 +10,14 @@
       <label for="mTitle">Title:</label>
       <div class="input-group">
         <input formControlName="Title" id="mTitle" class="form-control" placeholder="enter title" type="text">
+        <div *ngIf="formMovie.controls['Title'].invalid && (formMovie.controls['Title'].dirty || formMovie.controls['Title'].touched)" class="invalid-feedback">
+          <div *ngIf="formMovie.controls['Title'].errors.required">
+            This field is required.
+          </div>
+          <div *ngIf="formMovie.controls['Title'].errors.titleInUse">
+            The same movie title is already exist.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -17,6 +25,14 @@
       <label for="mYear">Year:</label>
       <div class="input-group">
         <input formControlName="Year" id="mYear" class="form-control" placeholder="enter Year" type="number">
+        <div *ngIf="formMovie.controls['Year'].invalid && (formMovie.controls['Year'].dirty || formMovie.controls['Year'].touched)" class="invalid-feedback">
+          <div *ngIf="formMovie.controls['Year'].errors.required">
+            This field is required.
+          </div>
+          <div *ngIf="formMovie.controls['Year'].errors.range">
+            {{ formMovie.controls['Year'].errors.range.msg }}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -24,6 +40,11 @@
       <label for="mRuntime">Runtime:</label>
       <div class="input-group">
         <input formControlName="Runtime" id="mRuntime" class="form-control" placeholder="enter Runtime" type="text">
+        <div *ngIf="formMovie.controls['Runtime'].invalid && (formMovie.controls['Runtime'].dirty || formMovie.controls['Runtime'].touched)" class="invalid-feedback">
+          <div *ngIf="formMovie.controls['Runtime'].errors.required">
+            This field is required.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -31,6 +52,11 @@
       <label for="mGenre">Genre:</label>
       <div class="input-group">
         <input formControlName="Genre" id="mGenre" class="form-control" placeholder="enter Genre" type="text">
+        <div *ngIf="formMovie.controls['Genre'].invalid && (formMovie.controls['Genre'].dirty || formMovie.controls['Genre'].touched)" class="invalid-feedback">
+          <div *ngIf="formMovie.controls['Genre'].errors.required">
+            This field is required.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -38,6 +64,11 @@
       <label for="mDirector">Director:</label>
       <div class="input-group">
         <input formControlName="Director" id="mDirector" class="form-control" placeholder="enter Director" type="text">
+        <div *ngIf="formMovie.controls['Director'].invalid && (formMovie.controls['Director'].dirty || formMovie.controls['Director'].touched)" class="invalid-feedback">
+          <div *ngIf="formMovie.controls['Director'].errors.required">
+            This field is required.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -46,6 +77,11 @@
       <div class="input-group">
         <textarea formControlName="Plot" id="mPlot" class="form-control"
                   placeholder="enter small description"></textarea>
+        <div *ngIf="formMovie.controls['Plot'].invalid && (formMovie.controls['Plot'].dirty || formMovie.controls['Plot'].touched)" class="invalid-feedback">
+          <div *ngIf="formMovie.controls['Plot'].errors.required">
+            This field is required.
+          </div>
+        </div>
       </div>
     </div>
 
