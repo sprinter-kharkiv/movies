@@ -89,12 +89,12 @@
 </div>
 <div class="modal-footer">
   <button type="button"
-          class="btn btn-primary mr-1"
+          class="btn btn-sm btn-primary mr-1"
           [ngClass]="{'loading': isLoading}"
           (click)="saveData()"
           [disabled]="formMovie.invalid">{{ saveBtnText }}</button>
   <button type="button"
-          class="btn btn-light"
+          class="btn btn-sm btn-light"
           (click)="activeModal.dismiss()">Cancel
   </button>
 </div>

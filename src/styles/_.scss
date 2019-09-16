@@ -1,5 +1,3 @@
-@import "variables";
-
 html,
 body {
   min-height: 100%;
@@ -30,6 +28,12 @@ textarea.form-control {
 
 .invalid-feedback {
   display: block;
+}
+
+.modal-header {
+  .close {
+    outline: none;
+  }
 }
 
 .logo-img {

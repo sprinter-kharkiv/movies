@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IMovie } from '@store/models/muvie.model';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -24,7 +24,8 @@ export function ValidateYear(control: FormControl) {
 
 @Component({
   selector: 'app-create-update-movie',
-  templateUrl: './create-update-movie.component.html'
+  templateUrl: './create-update-movie.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
 
@@ -65,15 +66,16 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     const asyncTitleValidator = this.validateTitleNotTaken.bind(this, [this.movie ? this.movie.id : '' ]);
-
-    this.formMovie = this.fb.group({
+    const config = {
       Title: [this.movie ? this.movie.Title : null, Validators.required, asyncTitleValidator],
       Year: [this.movie ? this.movie.Year : null, [Validators.required, ValidateYear]],
       Runtime: [this.movie ? this.movie.Runtime : null, Validators.required],
       Genre: [this.movie ? this.movie.Genre : null, Validators.required],
       Director: [this.movie ? this.movie.Director : null, Validators.required],
       Plot: [this.movie ? this.movie.Plot : null, Validators.required],
-    });
+    };
+
+    this.formMovie = this.fb.group(config);
   }
 
   private validateTitleNotTaken(control: AbstractControl) {

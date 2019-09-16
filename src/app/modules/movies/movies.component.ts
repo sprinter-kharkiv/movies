@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subject } from 'rxjs';
-import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs/operators';
+import { delay, takeUntil } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { IMovie } from '@store/models/muvie.model';
 import { DeleteMovie, GrabMovie } from '@store/actions/movies.actions';
@@ -20,8 +19,8 @@ import { ConfirmationComponent } from '@app/modules/modals/confirmation/confirma
 export class MoviesComponent implements OnInit, OnDestroy {
   constructor(
     private storeMovies: Store<AppState>,
-    private router: Router,
     private modalService: NgbModal,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -35,6 +34,7 @@ export class MoviesComponent implements OnInit, OnDestroy {
   private readonly onDestroy = new Subject<void>();
 
   ngOnInit() {
+    this.cdr.detach();
     this.grabMuvies(this.validIMDb);
     this.getAllMovies();
   }
@@ -50,6 +50,11 @@ export class MoviesComponent implements OnInit, OnDestroy {
 
   private getAllMovies(): void {
     this.movies$ = this.storeMovies.pipe(select(selectMoviesList));
+    this.movies$
+      .pipe(
+        takeUntil(this.onDestroy),
+        delay(0))
+      .subscribe(() => this.cdr.detectChanges());
   }
 
   public showDetail(movie: IMovie): void {
