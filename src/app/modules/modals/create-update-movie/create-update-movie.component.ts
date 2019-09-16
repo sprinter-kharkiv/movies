@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IMovie } from '@store/models/muvie.model';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddMovie, UpdateMovie } from '@store/actions/movies.actions';
 import { ActionsSubject, Store } from '@ngrx/store';
 import { AppState } from '@store/reducers';
 import { Subject } from 'rxjs';
 import { Actions } from '@ngrx/effects';
 import { takeUntil } from 'rxjs/operators';
-import { validateTitleNotTaken, ValidateYear } from '@app/helpers/validators';
+import { CustomValidators } from '@app/helpers/validators';
+
 
 @Component({
   selector: 'app-create-update-movie',
@@ -26,6 +27,7 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
     private storeMovies: Store<AppState>,
     private updates$: Actions,
     private actionsSubj: ActionsSubject,
+    private customValidators: CustomValidators,
   ) {
   }
 
@@ -55,9 +57,11 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
   private initForm(): void {
     const currentId = this.movie ? this.movie.id : '';
     const config = {
-      Title: [this.movie ? this.movie.Title : null, Validators.required, validateTitleNotTaken.bind(this, this.storeMovies, currentId)],
-      // Title: [this.movie ? this.movie.Title : null, Validators.required, UniqueAlterEgoValidator],
-      Year: [this.movie ? this.movie.Year : null, [Validators.required, ValidateYear]],
+      // Title: [this.movie ? this.movie.Title : null,
+      //   Validators.required,
+      //   this.customValidators.uniqueTitle(this, this.storeMovies, currentId)],
+      Title: [this.movie ? this.movie.Title : null, Validators.required],
+      Year: [this.movie ? this.movie.Year : null, [Validators.required, this.customValidators.year]],
       Runtime: [this.movie ? this.movie.Runtime : null, Validators.required],
       Genre: [this.movie ? this.movie.Genre : null, Validators.required],
       Director: [this.movie ? this.movie.Director : null, Validators.required],
@@ -73,14 +77,14 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
     const titleForCheck = args[1].value.toLowerCase();
 
     return new Promise(
-      ( resolve ) => {
+      (resolve) => {
         this.storeMovies.select(state => state.movies).pipe(takeUntil(this.onDestroy))
           .subscribe(res => {
             res.movies.filter(movie => {
-              if ( titleForCheck === movie.Title.toLowerCase() && currentId !== movie.id) {
-                resolve({ titleInUse: true });
+              if (titleForCheck === movie.Title.toLowerCase() && currentId !== movie.id) {
+                resolve({titleInUse: true});
               } else {
-                resolve( null );
+                resolve(null);
               }
             });
           });
