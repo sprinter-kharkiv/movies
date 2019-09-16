@@ -25,17 +25,17 @@ export class MoviesComponent implements OnInit, OnDestroy {
   }
 
   movies$: Observable<IMovie[]>;
-  validIMDb = [
-    'tt3896198',
-    'tt0120689',
-    'tt0479939',
-    'tt5137294',
+  validTitles = [
+    'Guardians of the Galaxy Vol. 2',
+    'The Green Mile',
+    'Knocking',
+    '1 1/2 Hora',
   ];
   private readonly onDestroy = new Subject<void>();
 
   ngOnInit() {
     this.cdr.detach();
-    this.grabMuvies(this.validIMDb);
+    this.grabMuvies(this.validTitles);
     this.getAllMovies();
   }
 

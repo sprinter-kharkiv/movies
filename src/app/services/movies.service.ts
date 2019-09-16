@@ -15,8 +15,8 @@ export class MoviesService {
   constructor(private http: HttpClient) {
   }
 
-  grabMovie(id): Observable<IMovie> {
-    return this.http.get<IMovie>(BASE_URL + '?i=' + id + API_KEY)
+  grabMovie(title): Observable<IMovie> {
+    return this.http.get<IMovie>(BASE_URL + '?t=' + title + API_KEY)
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

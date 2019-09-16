@@ -8,19 +8,7 @@ import { AppState } from '@store/reducers';
 import { Subject } from 'rxjs';
 import { Actions } from '@ngrx/effects';
 import { takeUntil } from 'rxjs/operators';
-
-export function ValidateYear(control: FormControl) {
-  const maxVal = new Date().getFullYear() + 1;
-  const minVal = 1870;
-  if (control.value && (maxVal < control.value || minVal > control.value)) {
-    return {
-      range: {
-        msg: 'Wrong year value!'
-      }
-    };
-  }
-  return null;
-}
+import { validateTitleNotTaken, ValidateYear } from '@app/helpers/validators';
 
 @Component({
   selector: 'app-create-update-movie',
@@ -65,9 +53,10 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
   }
 
   private initForm(): void {
-    const asyncTitleValidator = this.validateTitleNotTaken.bind(this, [this.movie ? this.movie.id : '' ]);
+    const currentId = this.movie ? this.movie.id : '';
     const config = {
-      Title: [this.movie ? this.movie.Title : null, Validators.required, asyncTitleValidator],
+      Title: [this.movie ? this.movie.Title : null, Validators.required, validateTitleNotTaken.bind(this, this.storeMovies, currentId)],
+      // Title: [this.movie ? this.movie.Title : null, Validators.required, UniqueAlterEgoValidator],
       Year: [this.movie ? this.movie.Year : null, [Validators.required, ValidateYear]],
       Runtime: [this.movie ? this.movie.Runtime : null, Validators.required],
       Genre: [this.movie ? this.movie.Genre : null, Validators.required],
@@ -78,7 +67,7 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
     this.formMovie = this.fb.group(config);
   }
 
-  private validateTitleNotTaken(control: AbstractControl) {
+  private validateTitleNotTakenRRR(control: AbstractControl) {
     const args = Array.prototype.slice.call(arguments);
     const [currentId] = args[0];
     const titleForCheck = args[1].value.toLowerCase();
