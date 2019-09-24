@@ -1,5 +1,5 @@
 import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CustomValidators {
-  constructor() {}
+  constructor() {
+  }
 
   year(control: FormControl) {
     const maxVal = new Date().getFullYear() + 1;
@@ -24,18 +25,23 @@ export class CustomValidators {
   }
 
   uniqueTitle(that, storeMovies, id): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      return storeMovies.select(state => state.movies).pipe(
-        takeUntil(that.onDestroy))
-        .subscribe(res => {
-          res.movies.filter(movie => {
-            if ( control.value === movie.Title.toLowerCase() && id !== movie.id) {
-              return { titleInUse: true };
-            } else {
-              return null;
-            }
-          });
+    return (control: AbstractControl): any => {
+      const movies = storeMovies.select(state => state.movies).pipe(
+        takeUntil(that.onDestroy));
+
+      movies.subscribe(res => {
+        res.movies.some(movie => {
+          if ( control.value && control.value.toLowerCase() === movie.Title.toLowerCase() && id !== movie.id) {
+            console.log('error');
+            return { titleInUse: {
+                msg: 'The same movie title is already exist!'
+              } };
+          } else {
+            console.log('null');
+            return null;
+          }
         });
+      });
     };
   }
 

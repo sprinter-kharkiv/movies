@@ -15,7 +15,7 @@
             This field is required.
           </div>
           <div *ngIf="formMovie.controls['Title'].errors.titleInUse">
-            The same movie title is already exist.
+            {{ formMovie.controls['Title'].errors.titleInUse.msg }}
           </div>
         </div>
       </div>

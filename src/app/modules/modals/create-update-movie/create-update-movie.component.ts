@@ -57,10 +57,9 @@ export class CreateUpdateMovieComponent implements OnInit, OnDestroy {
   private initForm(): void {
     const currentId = this.movie ? this.movie.id : '';
     const config = {
-      // Title: [this.movie ? this.movie.Title : null,
-      //   Validators.required,
-      //   this.customValidators.uniqueTitle(this, this.storeMovies, currentId)],
-      Title: [this.movie ? this.movie.Title : null, Validators.required],
+      Title: [this.movie ? this.movie.Title : null,
+        [Validators.required,
+          this.customValidators.uniqueTitle(this, this.storeMovies, currentId)]],
       Year: [this.movie ? this.movie.Year : null, [Validators.required, this.customValidators.year]],
       Runtime: [this.movie ? this.movie.Runtime : null, Validators.required],
       Genre: [this.movie ? this.movie.Genre : null, Validators.required],
