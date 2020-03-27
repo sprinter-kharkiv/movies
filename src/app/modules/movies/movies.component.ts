@@ -1,7 +1,18 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subject } from 'rxjs';
-import { delay, takeUntil } from 'rxjs/operators';
+import { concat, forkJoin, fromEvent, interval, merge, Observable, of, Subject, timer } from 'rxjs';
+import {
+  concatAll,
+  concatMap,
+  delay,
+  endWith,
+  flatMap,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+  takeUntil
+} from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { IMovie } from '@store/models/muvie.model';
 import { DeleteMovie, GrabMovie } from '@store/actions/movies.actions';
@@ -10,6 +21,8 @@ import { AppState } from '@store/reducers';
 import { DetailListComponent } from '@app/modules/modals/detail-list/detail-list.component';
 import { CreateUpdateMovieComponent } from '@app/modules/modals/create-update-movie/create-update-movie.component';
 import { ConfirmationComponent } from '@app/modules/modals/confirmation/confirmation.component';
+import { ajax } from 'rxjs/ajax';
+
 
 @Component({
   selector: 'app-movies',
@@ -34,9 +47,22 @@ export class MoviesComponent implements OnInit, OnDestroy {
   private readonly onDestroy = new Subject<void>();
 
   ngOnInit() {
-    this.cdr.detach();
-    this.grabMuvies(this.validTitles);
-    this.getAllMovies();
+    // this.cdr.detach();
+    // this.grabMuvies(this.validTitles);
+    // this.getAllMovies();
+
+
+
+    const source = timer( 1000);
+
+    const example = source.pipe(
+      switchMap(val => of(`Delayed by: ${val}ms`))
+    );
+
+    const subscribe = example.subscribe(val =>
+      console.log(`With concatMap: ${val}`)
+    );
+
   }
 
   ngOnDestroy(): void {

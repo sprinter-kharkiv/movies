@@ -2,12 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Movies</title>
+  <title>SoundratLandingPage</title>
   <base href="/movies/">  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.23fbdb192dd2266bea96.css"></head>
-<body>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Rubik:400,500,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="styles.1d5cc9da8f8f88333351.css"></head>
+<body class="mat-typography">
   <app-root></app-root>
-<script src="runtime-es2015.66a1646549fb1d5bac32.js" type="module"></script><script src="polyfills-es2015.7a264d14fd7126ba8db0.js" type="module"></script><script src="runtime-es5.4bbad932f62435cb35ee.js" nomodule></script><script src="polyfills-es5.2219c87348e60efc0076.js" nomodule></script><script src="scripts.aa0d04536ea9b826ee7e.js"></script><script src="main-es2015.f265ce3ec2b784171043.js" type="module"></script><script src="main-es5.e077130a319a8243f885.js" nomodule></script></body>
+  <script>
+    (function (doc) {
+      var scripts = doc.getElementsByTagName('script');
+      var script = scripts[scripts.length - 1];
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        var div = doc.createElement('div');
+        div.innerHTML = this.responseText;
+        div.style.overflow = 'hidden';
+        div.style.position = 'absolute';
+        div.style.left = '-9999px';
+        script.parentNode.insertBefore(div, script)
+      };
+      xhr.open('get', 'assets/sprites/sprite.svg', true);
+      xhr.send()
+    })(document)
+  </script>
+<script src="runtime-es2015.0811dcefd377500b5b1a.js" type="module"></script><script src="runtime-es5.0811dcefd377500b5b1a.js" nomodule defer></script><script src="polyfills-es5.1a3c78b07cd6f16c6e9a.js" nomodule defer></script><script src="polyfills-es2015.1f913f16a2d346cc8bdc.js" type="module"></script><script src="main-es2015.a3af337e4c6cbe853655.js" type="module"></script><script src="main-es5.a3af337e4c6cbe853655.js" nomodule defer></script></body>
 </html>

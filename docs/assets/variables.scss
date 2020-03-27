@@ -1,0 +1,106 @@
+
+$background: #19191e;
+$container-background: #25262c;
+$primary-text-color: white;
+$small-text-hover: white;
+$color-light-grey: #999;
+$toolbar-color: #101016;
+$set-playing-track: #b76d84;
+$set-hover-track: $toolbar-color;
+
+$border-radius: 8px;
+
+
+.mat-h3 {
+  color: $primary-text-color;
+}
+
+.mat-h4 {
+  color: $primary-text-color;
+}
+
+.mat-small {
+  color: $color-light-grey;
+}
+
+mat-card {
+  background: none !important;
+}
+
+img {
+  border-radius: $border-radius;
+}
+.small-image {
+  border-radius: $border-radius;
+}
+
+mat-toolbar {
+  background-color: $toolbar-color;
+}
+
+mat-list-item {
+  border-radius: $border-radius;
+}
+
+mat-card {
+  border-radius: $border-radius;
+}
+
+button:not(.mat-fab) {
+  border-radius: 20px !important;
+}
+
+a {
+  color: $color-light-grey;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  .mat-small:hover {
+    color: white;
+  }
+}
+
+@mixin card-border {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.mat-progress-bar-buffer {
+  background-color: #6c6c6c  !important;
+}
+
+//**************************
+//***** LANDING START ******
+//**************************
+
+$danger: #da3468;
+$black: #000000;
+$background_transp: rgba(25, 25, 30, .92);
+$background_text: rgb(52, 52, 68);
+$background_gradient: linear-gradient(-3deg, $background 20%, #2c2d34 50%, $background 80%);
+
+$mob-nav: #25262b;
+$text-border: #ace5ff;
+$card-status: $danger;
+$card-title: $black;
+
+$btn-filled-bg: linear-gradient(180deg, #1c3a49 0%, #1c4659 100%);
+$btn-filled-shadow: 0 1px 10px rgba(60, 180, 237, .34);
+
+$btn-accent-bg: linear-gradient(97.74deg, #ff4e85 11.91%, #d93367 83.84%);
+$btn-accent-bg-r: linear-gradient(277deg, #ff4e85 11.91%, #d93367 83.84%);
+$btn-accent-shadow: 0 1px 10px rgba(217, 51, 103, .46);
+$btn-accent-shadow-hover: 0 0 15px rgba(217, 51, 103, .6);
+
+$mobile: 576px;
+$tablet_s: 768px;
+$tablet: 992px;
+$desktop_s: 1200px;
+$desktop: 1400px;
+
+//**************************
+//***** LANDING END ********
+//**************************
